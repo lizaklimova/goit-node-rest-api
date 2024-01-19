@@ -6,6 +6,11 @@ import {
   updateById,
 } from "../services/contactsServices.js";
 import HttpError from "../helpers/HttpError.js";
+import {
+  createContactSchema,
+  updateContactSchema,
+} from "../schemas/contactsSchemas.js";
+import validateBody from "../helpers/validateBody.js";
 
 export const getAllContacts = async (req, res) => {
   const result = await listContacts();
@@ -42,11 +47,29 @@ export const deleteContact = async (req, res, next) => {
   }
 };
 
-export const createContact = async (req, res) => {};
+export const createContact = async (req, res, next) => {
+  try {
+    validateBody(createContactSchema);
+
+    const result = await addContact(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export const updateContact = async (req, res, next) => {
   try {
+    validateBody(updateContactSchema);
+
     const { id } = req.params;
+    const result = await updateById(id, body);
+
+    if (!result) {
+      throw HttpError(404, "Not found");
+    }
+
+    res.status(200).json(result);
   } catch (error) {
     next(error);
   }

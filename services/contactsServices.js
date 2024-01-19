@@ -27,7 +27,7 @@ export async function removeContact(contactId) {
   return deletedContact[0];
 }
 
-export async function addContact(name, email, phone) {
+export async function addContact({ name, email, phone }) {
   const contacts = await listContacts();
   const newContact = {
     id: nanoid(),
@@ -49,7 +49,8 @@ export async function updateById(id, data) {
     return null;
   }
 
-  contacts[contactIndex] = { id, ...data };
+  const contactToUpdate = contacts.find((el) => el.id === id);
+  contacts[contactIndex] = { id, ...contactToUpdate, ...data };
   await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
   return contacts[contactIndex];
 }
