@@ -45,7 +45,7 @@ export async function updateById(id, data) {
   const contacts = await listContacts();
 
   const contactIndex = contacts.findIndex((el) => el.id === id);
-  if (!contactIndex) {
+  if (contactIndex === -1) {
     return null;
   }
 
