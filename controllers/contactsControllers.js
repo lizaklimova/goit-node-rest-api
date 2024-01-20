@@ -35,12 +35,12 @@ export const deleteContact = ctrlWrapper(async (req, res) => {
   res.status(200).json(result);
 });
 
-export const createContact = ctrlWrapper(async (req, res, next) => {
+export const createContact = ctrlWrapper(async (req, res) => {
   const result = await addContact(req.body);
   res.status(201).json(result);
 });
 
-export const updateContact = ctrlWrapper(async (req, res, next) => {
+export const updateContact = ctrlWrapper(async (req, res) => {
   const { id } = req.params;
   const result = await updateById(id, req.body);
 
