@@ -3,7 +3,7 @@ import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../helpers/ctrlWrapper.js";
 
 export const getAll = ctrlWrapper(async (_, res) => {
-  const result = await Contact.find({}, "title email phone favorite");
+  const result = await Contact.find({}, "name email phone favorite");
   res.json(result);
 });
 
