@@ -28,17 +28,15 @@ const createContactSchema = Joi.object({
   name: Joi.string()
     .required()
     .messages({ "any.required": "Missing required name field" }),
-  email: Joi.string()
-    .email()
-    .messages({ "any.required": "Missing required email field" }),
-  phone: Joi.string()
-    .required()
-    .messages({ "any.required": "Missing required phone field" }),
+  email: Joi.string().email(),
+  phone: Joi.string(),
   favorite: Joi.boolean(),
 });
 
 const updateContactSchema = Joi.object({
-  favorite: Joi.boolean().required(),
+  favorite: Joi.boolean()
+    .required()
+    .messages({ "any.required": "Missing required favorite field" }),
 });
 
 export const Contact = model("contact", contactSchema);

@@ -5,13 +5,14 @@ const validateBody = (schema) => {
     const fieldsQty = Object.keys(req.body).length;
     const { error } = schema.validate(req.body);
 
+    if (error) {
+      next(HttpError(400, error.message));
+    }
+
     if (!fieldsQty) {
       next(HttpError(400, "Body must have at least one field"));
     }
 
-    if (error) {
-      next(HttpError(400, error.message));
-    }
     next();
   };
 
