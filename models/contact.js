@@ -26,16 +26,12 @@ contactSchema.post("save", handleMongooseError);
 
 const createContactSchema = Joi.object({
   name: Joi.string()
-    .max(50)
     .required()
     .messages({ "any.required": "Missing required name field" }),
   email: Joi.string()
     .email()
-    .required()
     .messages({ "any.required": "Missing required email field" }),
   phone: Joi.string()
-    .min(3)
-    .max(50)
     .required()
     .messages({ "any.required": "Missing required phone field" }),
   favorite: Joi.boolean(),
