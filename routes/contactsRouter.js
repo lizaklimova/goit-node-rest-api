@@ -24,14 +24,14 @@ contactsRouter.post("/", validateBody(schemas.createContactSchema), create);
 contactsRouter.put(
   "/:id",
   isValidId,
-  validateBody(schemas.createContactSchema),
+  validateBody(schemas.updateContactSchema),
   updateById
 );
 
 contactsRouter.patch(
   "/:id/favorite",
   isValidId,
-  validateBody(schemas.updateContactSchema),
+  validateBody(schemas.updateFavoriteSchema),
   updateFavorite
 );
 
