@@ -41,10 +41,10 @@ const registerSchema = Joi.object({
 });
 
 const loginSchema = Joi.object({
-  password: Joi.string().required().messages({
+  password: Joi.string().min(6).required().messages({
     "any.required": "Enter password",
   }),
-  email: Joi.string().required().messages({
+  email: Joi.string().email().required().messages({
     "any.required": "Enter email",
   }),
   subscription: Joi.string().valid("starter", "pro", "business").messages({
@@ -52,8 +52,19 @@ const loginSchema = Joi.object({
   }),
 });
 
+const updateSubscriptionSchema = Joi.object({
+  subscription: Joi.string()
+    .valid("starter", "pro", "business")
+    .required()
+    .messages({
+      "any.required": "Subscription is required",
+      "any.only": "Subscription has only 3 values: starter, pro, business",
+    }),
+});
+
 export const User = model("user", userSchema);
 export const authSchemas = {
   registerSchema,
   loginSchema,
+  updateSubscriptionSchema,
 };

@@ -2,8 +2,20 @@ import { Contact } from "../models/contact.js";
 import HttpError from "../helpers/HttpError.js";
 import ctrlWrapper from "../helpers/ctrlWrapper.js";
 
-export const getAll = ctrlWrapper(async (_, res) => {
-  const result = await Contact.find({}, "name email phone favorite");
+export const getAll = ctrlWrapper(async (req, res) => {
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 20, favorite } = req.query;
+  const skip = (page - 1) * limit;
+
+  const isFavorite = favorite === "true";
+  const result = await Contact.find(
+    { owner, favorite: isFavorite },
+    "-createdAt -updatedAt",
+    {
+      skip,
+      limit,
+    }
+  ).populate("owner", "email");
   res.json(result);
 });
 
@@ -30,7 +42,8 @@ export const deleteById = ctrlWrapper(async (req, res) => {
 });
 
 export const create = ctrlWrapper(async (req, res) => {
-  const result = await Contact.create(req.body);
+  const { _id: owner } = req.user;
+  const result = await Contact.create({ ...req.body, owner });
   res.status(201).json(result);
 });
 
