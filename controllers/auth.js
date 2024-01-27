@@ -68,6 +68,31 @@ export const verifyEmail = ctrlWrapper(async (req, res) => {
   });
 });
 
+export const resendVerifyEmail = ctrlWrapper(async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  console.log(user);
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  if (user.verify) {
+    throw HttpError(400, "Verification has already been passed");
+  }
+
+  const verifyEmail = {
+    to: email,
+    subject: "Verify your email",
+    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click here to verify email</a>`,
+  };
+
+  await sendEmail(verifyEmail);
+
+  res.json({
+    message: "Verification email sent",
+  });
+});
+
 export const login = ctrlWrapper(async (req, res) => {
   const { email, password } = req.body;
 

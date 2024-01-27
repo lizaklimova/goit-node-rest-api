@@ -11,6 +11,7 @@ import {
   updateSubscription,
   updateAvatar,
   verifyEmail,
+  resendVerifyEmail,
 } from "../controllers/auth.js";
 
 const authRouter = express.Router();
@@ -23,7 +24,11 @@ authRouter.post(
 
 authRouter.get("/verify/:verificationToken", verifyEmail);
 
-authRouter.post("/verify", validateBody(), verifyEmail);
+authRouter.post(
+  "/verify",
+  validateBody(authSchemas.verificationEmailSchema),
+  resendVerifyEmail
+);
 
 authRouter.post("/login", validateBody(authSchemas.loginSchema), login);
 
