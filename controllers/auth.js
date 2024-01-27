@@ -66,7 +66,7 @@ export const getCurrent = ctrlWrapper(async (req, res) => {
 
 export const logout = ctrlWrapper(async (req, res) => {
   const { _id } = req.user;
-  await User.findByIdAndUpdate({ _id, token: "" });
+  await User.findByIdAndUpdate(_id, { token: "" });
 
   res.status(204).json();
 });
