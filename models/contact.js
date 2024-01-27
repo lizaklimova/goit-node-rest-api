@@ -33,9 +33,9 @@ const createContactSchema = Joi.object({
     .required()
     .messages({ "any.required": "Missing required name field" }),
   email: Joi.string()
+    .email()
     .required()
-    .messages({ "any.required": "Missing required email field" })
-    .email(),
+    .messages({ "any.required": "Missing required email field" }),
   phone: Joi.string()
     .required()
     .messages({ "any.required": "Missing required phone field" }),
