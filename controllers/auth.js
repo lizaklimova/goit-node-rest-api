@@ -93,7 +93,13 @@ export const updateSubscription = ctrlWrapper(async (req, res) => {
 
 export const updateAvatar = ctrlWrapper(async (req, res) => {
   const { _id } = req.user;
+
+  if (!req.file) {
+    throw HttpError(400, "Please, attach avatar.It is required.");
+  }
+
   const { path: tempUpload, originalname } = req.file;
+
   const fileName = `${_id}_${originalname}`;
   const resultUpload = path.resolve(avatarsDir, fileName);
 
